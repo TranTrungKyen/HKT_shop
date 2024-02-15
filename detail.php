@@ -124,7 +124,7 @@ if (!$result) {
                 <a href="productList.php">Sản Phẩm</a>
             </li>
         </ul>
-        <p class="copyright">copy by HKT-SHOP.com 2023</p>
+        <p class="copyright">copy by HKT-SHOP.com 2024</p>
     </footer>
 </body>
 

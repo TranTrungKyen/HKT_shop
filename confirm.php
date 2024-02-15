@@ -1,14 +1,12 @@
 <?php
-include_once 'lib/session.php';
-include_once 'classes/product.php';
-include_once 'classes/cart.php';
 include 'classes/user.php';
-
-$user = new user();
-$userInfo = $user->get();
-
-$cart = new cart();
-$totalQty = $cart->getTotalQtyByUserId();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $user = new user();
+    $result = $user->confirm($_POST['userId'], $_POST['captcha']);
+    if ($result === true) {
+        echo '<script type="text/javascript">alert("Xác minh tài khoản thành công!"); window.location.href = "login.php";</script>';
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,31 +20,7 @@ $totalQty = $cart->getTotalQtyByUserId();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://use.fontawesome.com/2145adbb48.js"></script>
     <script src="https://kit.fontawesome.com/a42aeb5b72.js" crossorigin="anonymous"></script>
-    <title>Trang chủ</title>
-    <style>
-        table,
-        tr,
-        td {
-            border: none;
-            /* background-color: #fff; */
-            margin: 0;
-            padding: 0;
-            text-align: left;
-            font-size: 18px;
-        }
-
-        td {
-            margin: 10px;
-            padding: 10px;
-        }
-
-        .container-info {
-            width: 60%;
-            display: flex;
-            justify-content: center;
-            flex: 1;
-        }
-    </style>
+    <title>Xác minh Email</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script>
         $(function() {
@@ -77,15 +51,15 @@ $totalQty = $cart->getTotalQtyByUserId();
             </li>
             <?php
             if (isset($_SESSION['user']) && $_SESSION['user']) { ?>
-                <li><a href="info.php" id="signin" class="active">Thông tin cá nhân</a></li>
+                <li><a href="info.php" id="signin">Thông tin cá nhân</a></li>
                 <li><a href="logout.php" id="signin">Đăng xuất</a></li>
             <?php } else { ?>
-                <li><a href="register.php" id="signup">Đăng ký</a></li>
+                <li><a href="register.php" id="signup" class="active">Đăng ký</a></li>
                 <li><a href="login.php" id="signin">Đăng nhập</a></li>
             <?php } ?>
         </ul>
     </nav>
-    <section class="banner">
+        <section class="banner">
         <div class="fadein">
             <?php
             // display images from directory
@@ -102,41 +76,19 @@ $totalQty = $cart->getTotalQtyByUserId();
         </div>
     </section>
     <div class="featuredProducts">
-        <h1>Thông tin cá nhân</h1>
+        <h1>Xác minh Email</h1>
     </div>
     <div class="container-single">
-        <div class="container-info">
-
-            <div class="info">
-                <table>
-                    <tr>
-                        <td>Họ và tên: </td>
-                        <td><?= $userInfo['fullname'] ?></td>
-                    </tr>
-                    <tr>
-                        <td>Email: </td>
-                        <td><?= $userInfo['email'] ?></td>
-                    </tr>
-                    <tr>
-                        <td>Ngày sinh: </td>
-                        <td><?= $userInfo['dob'] ?></td>
-                    </tr>
-                    <tr>
-                        <td>Địa chỉ: </td>
-                        <td><?= $userInfo['address'] ?></td>
-                    </tr>
-                    <tr>
-                        <td>Chức vụ: </td>
-                        <td><?php if ($userInfo['role_id'] == 1) {
-                                echo "Admin";
-                            } else echo "Khách hàng" ?></td>
-                    </tr>
-                </table>
-                <?php if ($userInfo['role_id'] == 1) {
-                    echo '<div><a href="./admin/index.php">Chuyển sang trang Admin</a></div>';
-                } else echo '<div><a href="edit_info.php">Chỉnh sửa thông tin cá nhân</a></div>'; ?>
-            </div>
+        <div class="login">
+            <b class="error"><?= !empty($result) ? $result : '' ?></b>
+            <form action="confirm.php" method="post" class="form-login">
+                <label for="fullName">Mã xác minh</label>
+                <input type="text" id="userId" name="userId" hidden style="display: none;" value="<?= (isset($_GET['id'])) ? $_GET['id'] : $_POST['userId'] ?>">
+                <input type="text" id="captcha" name="captcha" placeholder="Mã xác minh...">
+                <input type="submit" value="Xác minh" name="submit">
+            </form>
         </div>
+    </div>
     </div>
     <footer>
         <div class="social">
