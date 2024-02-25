@@ -57,7 +57,7 @@ if ($role_id == 1) {
                 <a href="#">About</a>
             </li>
         </ul>
-        <p class="copyright">copy by HKT-SHOP.com 2023</p>
+        <p class="copyright">copy by HKT-SHOP.com 2024</p>
     </footer>
 </body>
 

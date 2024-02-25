@@ -66,7 +66,7 @@ if ($role_id == 1) {
     </div>
     
     <footer>
-        <p class="copyright">copy by HKT-SHOP.com 2022</p>
+        <p class="copyright">copy by HKT-SHOP.com 2024</p>
     </footer>
 </body>
 

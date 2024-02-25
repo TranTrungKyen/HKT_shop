@@ -156,7 +156,7 @@ if (isset($_GET['search'])) {
     </div>
     </div>
     <footer>
-        <p class="copyright">copy by HKT-SHOP.com 2023</p>
+        <p class="copyright">copy by HKT-SHOP.com 2024</p>
     </footer>
 </body>
 

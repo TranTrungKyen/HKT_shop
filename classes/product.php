@@ -109,10 +109,16 @@ class product
 
     public function getProductByName($name_product)
     {
-        $query =
-            "SELECT *
-			 FROM products
-			 WHERE name LIKE '%$name_product%'";
+        // $query =
+        //     "SELECT *
+		// 	 FROM products 
+		// 	 WHERE name LIKE '%$name_product%'";
+
+$query =
+"SELECT products.*, users.fullName
+ FROM products INNER JOIN categories ON products.cateId = categories.id INNER JOIN users ON products.createdBy = users.id
+ WHERE products.name LIKE '%$name_product%'";
+        
         $mysqli_result = $this->db->select($query);
         if ($mysqli_result) {
             $result = mysqli_fetch_all($mysqli_result, MYSQLI_ASSOC);
